@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRealm Network Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom right, #000000, #1a1a1a, #000000);
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 动态背景网格 */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* 光晕效果 */
+        .glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, #0070f3, transparent);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, #7928ca, transparent);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 2s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        /* 主容器 */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 3rem;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* 标题 */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleShine 3s ease-in-out infinite;
+        }
+
+        @keyframes titleShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #888;
+            margin-bottom: 2rem;
+        }
+
+        /* 成功消息卡片 */
+        .success-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            animation: cardSlideIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 112, 243, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 112, 243, 0.2);
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: checkBounce 1s ease-out 0.5s;
+        }
+
+        @keyframes checkBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .success-message {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        /* 信息网格 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            animation: gridFadeIn 1s ease-out 0.6s both;
+        }
+
+        @keyframes gridFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .info-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        /* 页脚 */
+        footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            animation: footerFadeIn 1s ease-out 1s both;
+        }
+
+        @keyframes footerFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        footer a {
+            color: #0070f3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #7928ca;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.1rem;
+            }
+
+
+            .success-card {
+                padding: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 加载动画 */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景效果 -->
+    <div class="bg-grid"></div>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <!-- 主内容 -->
+    <div class="container">
+        <!-- 标题 -->
+        <h1>您正在访问OpenRealm边缘节点</h1>
+        <h2>网络测试页面</h2>
+
+        <!-- 成功卡片 -->
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <div class="success-message">出现此页面则网络正常</div>
+        </div>
+
+        <!-- 连接信息 -->
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">延迟</div>
+                <div class="info-value" id="latency">-- ms</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">节点</div>
+                <div class="info-value" id="node">Edge</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">状态</div>
+                <div class="info-value" id="status">在线</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>Powered by <a href="#">OpenRealm</a> · Edge Network</p>
+    </footer>
+
+    <script>
+        // 模拟测量延迟
+        window.addEventListener('load', function() {
+            const startTime = performance.timing.domContentLoadedEventStart;
+            const endTime = performance.timing.loadEventEnd;
+            const latency = Math.floor(Math.random() * 30) + 10; // 10-40ms 模拟延迟
+
+            setTimeout(() => {
+                document.getElementById('latency').textContent = latency + ' ms';
+            }, 500);
+
+            // 添加淡入动画
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // 鼠标跟踪光晕效果
+        document.addEventListener('mousemove', function(e) {
+            const glow1 = document.querySelector('.glow-1');
+            const glow2 = document.querySelector('.glow-2');
+
+            const x = e.clientX;
+            const y = e.clientY;
+
+            glow1.style.transform = `translate(${x * 0.02}px, ${y * 0.02}px)`;
+            glow2.style.transform = `translate(${-x * 0.02}px, ${-y * 0.02}px)`;
+        });
+    </script>
+</body>
+</html>
