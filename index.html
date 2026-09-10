@@ -157,12 +157,15 @@
             margin: 0 auto 1rem;
             animation: checkBounce 1s ease-out 0.5s;
             will-change: transform;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .success-icon img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             display: block;
         }
 
@@ -290,6 +293,8 @@
                 font-size: 1.5rem;
                 line-height: 1.3;
                 margin-bottom: 0.8rem;
+                word-break: keep-all;
+                padding: 0 0.5rem;
             }
 
             h2 {
@@ -335,6 +340,9 @@
                 bottom: 1rem;
                 font-size: 0.8rem;
                 padding: 0 1rem;
+                left: 0;
+                right: 0;
+                z-index: 100;
             }
         }
 
@@ -345,7 +353,8 @@
             }
 
             h1 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+                padding: 0 0.5rem;
             }
 
             h2 {
@@ -372,6 +381,11 @@
 
             .info-item {
                 padding: 0.7rem;
+            }
+
+            footer {
+                font-size: 0.7rem;
+                bottom: 0.8rem;
             }
         }
 
@@ -417,7 +431,7 @@
     <!-- 主内容 -->
     <div class="container">
         <!-- 标题 -->
-        <h1>您正在访问OpenRealm边缘节点</h1>
+        <h1>OpenRealm边缘节点</h1>
         <h2>网络测试页面</h2>
 
         <!-- 成功卡片 -->
