@@ -62,7 +62,7 @@ export default function Home() {
           transition={{ delay: 0.1 }}
         >
           {/* Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white text-center mb-4 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-center mb-4 tracking-tight leading-tight gradient-text">
             您正在访问OpenRealm边缘节点
           </h1>
 
