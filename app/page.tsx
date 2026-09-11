@@ -1,106 +1,223 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+}
+
+const pulseVariants = {
+  initial: { scale: 1, opacity: 1 },
+  animate: {
+    scale: [1, 1.2, 1],
+    opacity: [1, 0.8, 1],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: 'easeInOut',
+    },
+  },
+}
+
 export default function Home() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
-
   return (
-    <main className="min-h-screen gradient-bg grid-pattern flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
-      {/* Floating orbs background effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-green-500/5 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 sm:w-96 sm:h-96 bg-blue-500/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-      </div>
+    <main className="min-h-screen bg-black vercel-grid flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-black pointer-events-none" />
 
-      {/* Main content card */}
-      <div className={`relative z-10 w-full max-w-2xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        <div className="backdrop-blur-xl bg-white/5 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-          {/* Top gradient line */}
-          <div className="h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent"></div>
+      {/* Content */}
+      <motion.div
+        className="relative z-10 w-full max-w-4xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {/* Logo section */}
+        <motion.div variants={itemVariants} className="flex justify-center mb-12">
+          <motion.div
+            className="relative"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border border-[#333] relative">
+              <Image
+                src="https://img.cdn1.vip/i/69fe76040e242_1778284036.jpg"
+                alt="OpenRealm"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            {/* Subtle glow ring */}
+            <motion.div
+              className="absolute inset-0 rounded-full border border-white/20"
+              variants={pulseVariants}
+              initial="initial"
+              animate="animate"
+            />
+          </motion.div>
+        </motion.div>
 
-          <div className="p-6 sm:p-8 md:p-12">
-            {/* Logo section with animation */}
-            <div className="flex justify-center mb-6 sm:mb-8">
-              <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 animate-float">
-                <div className="absolute inset-0 bg-green-500/20 rounded-full blur-xl animate-pulse-slow"></div>
-                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-green-500/30 animate-glow">
-                  <Image
-                    src="https://img.cdn1.vip/i/69fe76040e242_1778284036.jpg"
-                    alt="OpenRealm Logo"
-                    fill
-                    className="object-cover"
-                    priority
+        {/* Main heading */}
+        <motion.h1
+          variants={itemVariants}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-center mb-6 tracking-tight"
+        >
+          <span className="block text-white">您正在访问</span>
+          <span className="block bg-gradient-to-br from-white via-white to-gray-500 bg-clip-text text-transparent">
+            OpenRealm边缘节点
+          </span>
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          variants={itemVariants}
+          className="text-[#888] text-lg sm:text-xl md:text-2xl text-center mb-8 font-light"
+        >
+          网络测试页面
+        </motion.p>
+
+        {/* Status badge */}
+        <motion.div variants={itemVariants} className="flex justify-center mb-16">
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#111] border border-[#333] vercel-glow"
+            whileHover={{ scale: 1.02, borderColor: '#444' }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div
+              className="w-2 h-2 rounded-full bg-green-500"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [1, 0.7, 1],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <span className="text-sm text-white font-medium">网络正常</span>
+            <svg
+              className="w-4 h-4 text-green-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </motion.div>
+        </motion.div>
+
+        {/* Info card */}
+        <motion.div
+          variants={itemVariants}
+          className="max-w-2xl mx-auto mb-12"
+        >
+          <motion.div
+            className="bg-[#111] border border-[#333] rounded-2xl p-8 vercel-glow"
+            whileHover={{ borderColor: '#444' }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 mt-1">
+                <svg
+                  className="w-6 h-6 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
-                </div>
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold text-lg mb-2">
+                  连接成功
+                </h3>
+                <p className="text-[#888] text-sm leading-relaxed">
+                  出现此页面则网络正常。您已成功连接到 OpenRealm 边缘节点，所有服务运行正常。
+                </p>
               </div>
             </div>
+          </motion.div>
+        </motion.div>
 
-            {/* Status indicator */}
-            <div className="flex justify-center mb-6 sm:mb-8">
-              <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-green-500/10 border border-green-500/30 animate-fade-in">
-                <div className="relative flex h-3 w-3 sm:h-4 sm:w-4">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 sm:h-4 sm:w-4 bg-green-500"></span>
-                </div>
-                <span className="text-green-400 font-medium text-sm sm:text-base">网络正常</span>
+        {/* Stats grid */}
+        <motion.div
+          variants={itemVariants}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-16"
+        >
+          {[
+            { label: '连接成功率', value: '100%', color: 'text-green-500' },
+            { label: '响应延迟', value: '<50ms', color: 'text-blue-500' },
+            { label: '在线服务', value: '24/7', color: 'text-purple-500' },
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              className="bg-[#111] border border-[#333] rounded-xl p-6 vercel-glow"
+              whileHover={{
+                scale: 1.02,
+                borderColor: '#444',
+                transition: { duration: 0.2 }
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.5 + index * 0.1,
+                duration: 0.5,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+            >
+              <div className={`text-3xl font-bold ${stat.color} mb-2 font-mono`}>
+                {stat.value}
               </div>
-            </div>
+              <div className="text-[#666] text-sm">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
 
-            {/* Main heading */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-3 sm:mb-4 bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent animate-slide-up leading-tight">
-              您正在访问OpenRealm边缘节点
-            </h1>
-
-            {/* Subtitle */}
-            <h2 className="text-lg sm:text-xl md:text-2xl text-center text-gray-400 mb-4 sm:mb-6 animate-slide-up font-light" style={{ animationDelay: '0.1s' }}>
-              网络测试页面
-            </h2>
-
-            {/* Description with icon */}
-            <div className="flex justify-center items-center gap-2 sm:gap-3 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="text-center text-gray-300 text-base sm:text-lg md:text-xl">
-                出现此页面则网络正常
-              </p>
-            </div>
-
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-10 md:mt-12 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <div className="text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-green-400 mb-1">100%</div>
-                <div className="text-xs sm:text-sm text-gray-400">连接成功率</div>
-              </div>
-              <div className="text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-400 mb-1">&lt;50ms</div>
-                <div className="text-xs sm:text-sm text-gray-400">响应延迟</div>
-              </div>
-              <div className="text-center p-3 sm:p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 col-span-2 sm:col-span-1">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-400 mb-1">24/7</div>
-                <div className="text-xs sm:text-sm text-gray-400">在线服务</div>
-              </div>
-            </div>
-
-            {/* Footer info */}
-            <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-white/10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <p className="text-center text-gray-500 text-xs sm:text-sm">
-                Powered by <span className="text-white font-semibold">OpenRealm</span> Edge Network
-              </p>
-            </div>
+        {/* Footer */}
+        <motion.div
+          variants={itemVariants}
+          className="text-center"
+        >
+          <div className="inline-flex items-center gap-2 text-[#666] text-sm">
+            <span>Powered by</span>
+            <span className="text-white font-semibold">OpenRealm</span>
+            <span className="text-[#333]">•</span>
+            <span>Edge Network</span>
           </div>
-        </div>
-
-        {/* Decorative corner accents */}
-        <div className="absolute -top-4 -left-4 w-16 h-16 sm:w-20 sm:h-20 border-t-2 border-l-2 border-green-500/30 rounded-tl-3xl animate-fade-in"></div>
-        <div className="absolute -bottom-4 -right-4 w-16 h-16 sm:w-20 sm:h-20 border-b-2 border-r-2 border-blue-500/30 rounded-br-3xl animate-fade-in"></div>
-      </div>
+        </motion.div>
+      </motion.div>
     </main>
   )
 }
